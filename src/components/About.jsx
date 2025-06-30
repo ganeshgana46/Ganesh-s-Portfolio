@@ -1,73 +1,214 @@
 import { motion } from 'framer-motion';
-import 'aos/dist/aos.css';
+import React from 'react';
 
 const About = () => {
+  // Stats data
+  const stats = [
+    { 
+      title: 'Experience', 
+      value: '1+ Years', 
+      icon: '⏳',
+      color: 'bg-indigo-100 text-indigo-700'
+    },
+    { 
+      title: 'Projects', 
+      value: '5+', 
+      icon: '🚀',
+      color: 'bg-purple-100 text-purple-700'
+    },
+    { 
+      title: 'Education', 
+      value: 'B.Tech', 
+      icon: '🎓',
+      color: 'bg-blue-100 text-blue-700'
+    },
+    { 
+      title: 'Location', 
+      value: 'Bangalore', 
+      icon: '📍',
+      color: 'bg-violet-100 text-violet-700'
+    },
+  ];
+
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-20 relative bg-gradient-to-b bg-gray-900 text-white overflow-hidden">
+      {/* Background Particles Animation */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(40)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-indigo-500 opacity-30"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              width: `${Math.random() * 10 + 5}px`,
+              height: `${Math.random() * 10 + 5}px`,
+            }}
+            animate={{
+              y: [null, -20],
+              opacity: [0.1, 0.6, 0.1],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 5,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Abstract Floating Shapes */}
+      <motion.div
+        className="absolute w-64 h-64 bg-purple-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
+        style={{ top: '10%', left: '10%' }}
+        animate={{
+          scale: [1, 1.2, 1],
+          rotate: [0, 180, 360],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
+      <motion.div
+        className="absolute w-80 h-80 bg-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
+        style={{ bottom: '10%', right: '10%' }}
+        animate={{
+          scale: [1.2, 1, 1.2],
+          rotate: [0, -180, -360],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 z-10 relative">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-aos="fade-up"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">About Me</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-lg text-gray-600 mb-6">
-                Front-End Developer specializing in React, JavaScript, and responsive web design. 
-                Passionate about crafting intuitive, high-performance user interfaces with clean, 
-                maintainable code.
-              </p>
-              <p className="text-lg text-gray-600 mb-6">
-                Experienced in state management, Rest APIs, and modern front-end workflows. 
-                Strong problem-solving skills and a keen eye for UX/UI best practices.
-              </p>
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">My Specialties:</h3>
-                <div className="flex flex-wrap gap-3">
-                  {['React', 'Next.js', 'Tailwind CSS', 'TypeScript', 'Responsive Design', 'Redux'].map((skill) => (
-                    <span 
-                      key={skill}
-                      className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            About <span className="bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text">Me</span>
+          </motion.h2>
+          <motion.div
+            className="h-1 w-20 bg-gradient-to-r from-indigo-400 to-purple-400 mx-auto rounded-full"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          />
+        </motion.div>
+
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column - Circular Profile Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex justify-center lg:justify-start"
+          >
+            <div className="relative w-64 h-64 md:w-90 md:h-90">
+              <motion.div
+                className="absolute inset-0 rounded-full border-4 border-indigo-500/30 overflow-hidden shadow-2xl"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.3 }
+                }}
               >
-                Download Resume
-              </motion.button>
+                <img
+                  src="/images/Profile.jpg" // Replace with your image path
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <motion.div
+                className="absolute inset-0 rounded-full border-4 border-transparent border-t-indigo-500 border-r-purple-500"
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { title: 'Experience', value: '1+ Years', desc: 'Freelance Development' },
-                { title: 'Projects', value: '10+', desc: 'Completed' },
-                { title: 'Education', value: 'B.Tech', desc: 'Electronics & Communication' },
-                { title: 'Location', value: 'Bangalore', desc: 'India' },
-              ].map((item, index) => (
+          </motion.div>
+
+          {/* Right Column - Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <motion.p 
+              className="text-lg md:text-xl text-gray-300 leading-relaxed"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              I'm a <span className="font-semibold text-indigo-400">Front-End Developer</span> specializing in React, JavaScript, and responsive web design. Passionate about crafting intuitive, high-performance user interfaces with clean, maintainable code that delivers exceptional user experiences.
+            </motion.p>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-gray-300 leading-relaxed"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              With expertise in state management, REST APIs, and modern front-end workflows, I combine <span className="font-semibold text-purple-400">technical skills</span> with a keen eye for UX/UI best practices to create digital products that are both beautiful and functional.
+            </motion.p>
+
+            {/* Compact Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              viewport={{ once: true }}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8"
+            >
+              {stats.map((item, index) => (
                 <motion.div
                   key={index}
-                  whileHover={{ y: -5 }}
-                  className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ 
+                    y: -5,
+                    boxShadow: "0 10px 15px -3px rgba(79, 70, 229, 0.3)"
+                  }}
+                  className={`${item.color} p-4 rounded-lg text-center shadow-sm transition-all`}
                 >
-                  <h3 className="text-2xl font-bold text-indigo-600 mb-1">{item.value}</h3>
-                  <p className="text-gray-700 font-medium">{item.title}</p>
-                  <p className="text-gray-500 text-sm">{item.desc}</p>
+                  <div className="text-2xl mb-1">{item.icon}</div>
+                  <div className="font-bold text-lg">{item.value}</div>
+                  <div className="text-sm opacity-80">{item.title}</div>
                 </motion.div>
               ))}
-            </div>
-          </div>
-        </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

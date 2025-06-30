@@ -1,14 +1,40 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import 'aos/dist/aos.css';
+import {
+  FaGithub,
+  FaLinkedin,
+  FaHome,
+  FaUser,
+  FaCode,
+  FaLaptopCode,
+  FaProjectDiagram,
+  FaGraduationCap,
+  FaPaperPlane,
+  FaBars,
+  FaTimes,
+} from 'react-icons/fa';
 
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(true);
+  const navRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
+  // Handle scroll behavior for navbar background
   useEffect(() => {
     const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsAtTop(scrollPosition < 100); // Adjust this value based on your hero section height
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Section detection
+  useEffect(() => {
+    const handleScrollSection = () => {
       const sections = ['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -22,112 +48,213 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScrollSection);
+    return () => window.removeEventListener('scroll', handleScrollSection);
   }, []);
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isNavbarClick = navRef.current && navRef.current.contains(event.target);
+      const isMobileMenuClick = mobileMenuRef.current && mobileMenuRef.current.contains(event.target);
+      
+      if (!isNavbarClick && !isMobileMenuClick) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
+
   const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'education', label: 'Education' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', icon: <FaHome /> },
+    { id: 'about', label: 'About', icon: <FaUser /> },
+    { id: 'skills', label: 'Skills', icon: <FaCode /> },
+    { id: 'experience', label: 'Experience', icon: <FaLaptopCode /> },
+    { id: 'projects', label: 'Projects', icon: <FaProjectDiagram /> },
+    { id: 'education', label: 'Education', icon: <FaGraduationCap /> },
+    { id: 'contact', label: 'Contact', icon: <FaPaperPlane /> },
   ];
 
+  const handleNavClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setIsMenuOpen(false);
+  };
+
   return (
-    <motion.nav 
-      className="fixed w-full bg-white shadow-md z-50"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <span className="text-xl font-bold text-gray-800">Ganesh Pallam</span>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                className={`${
-                  activeSection === link.id ? 'text-indigo-600' : 'text-gray-600 hover:text-indigo-500'
-                } font-medium transition-colors duration-300`}
-                onClick={() => setActiveSection(link.id)}
+    <>
+      {/* Navbar Container */}
+      <motion.nav
+        ref={navRef}
+        className={`fixed inset-x-0 top-0 h-16 z-[9999] transition-all duration-300 ${
+          isAtTop ? '' : 'bg-gray-900/95 backdrop-blur-md shadow-lg'
+        }`}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex justify-between items-center h-full">
+            {/* Mobile menu button - Left side */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`${isAtTop ? 'text-white' : 'text-gray-300'} hover:text-indigo-300 focus:outline-none`}
+                aria-label="Toggle Menu"
               >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex space-x-4 ml-6">
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
-                <FaGithub className="text-gray-600 hover:text-indigo-600 h-5 w-5 transition-colors" />
-              </a>
-              <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin className="text-gray-600 hover:text-indigo-600 h-5 w-5 transition-colors" />
-              </a>
+                {isMenuOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
+              </button>
             </div>
-          </div>
-          
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-indigo-600 focus:outline-none"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+
+            {/* Name/Logo - Right side in mobile, centered in desktop */}
+            <div className="flex items-center md:mx-auto ml-auto md:ml-0 pr-4 md:pr-0">
+              <span className="text-2xl font-bold bg-gradient-to-r from-white via-indigo-300 to-purple-300 text-transparent bg-clip-text">
+                Ganesh Pallam
+              </span>
+            </div>
+
+            {/* Desktop Navigation - Right side */}
+            <div className="hidden md:flex items-center space-x-8 h-full">
+              {navLinks.map((link) => (
+                <motion.a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  className={`${
+                    activeSection === link.id
+                      ? 'font-semibold bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text'
+                      : isAtTop ? 'text-white hover:text-indigo-300' : 'text-gray-300 hover:text-indigo-300'
+                  } font-medium transition-colors duration-300`}
+                  onClick={() => handleNavClick(link.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+
+              <a
+                href="#contact"
+                className={`ml-6 px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  isAtTop
+                    ? 'border border-white/60 hover:border-white text-white hover:bg-white/10'
+                    : 'border border-white/30 hover:border-white/60 text-white hover:text-indigo-300'
+                }`}
+              >
+                Let's Connect
+              </a>
+
+              <div className="flex items-center space-x-4 ml-6">
+                <a
+                  href="https://github.com/ganeshgana46"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${isAtTop ? 'text-white' : 'text-gray-300'} hover:text-indigo-300 transition-colors`}
+                  aria-label="GitHub"
+                >
+                  <FaGithub className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/ganesh-pallam/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${isAtTop ? 'text-white' : 'text-gray-300'} hover:text-indigo-300 transition-colors`}
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin className="h-5 w-5" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Mobile Navigation */}
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <motion.div 
-          className="md:hidden bg-white shadow-lg"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
+        <div 
+          className="fixed inset-0 z-[9998] bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsMenuOpen(false)}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((link) => (
+          {/* Mobile Menu Content */}
+          <motion.div
+            ref={mobileMenuRef}
+            className="fixed top-16 left-0 right-0 bg-gray-900/95 shadow-xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-4 pt-4 pb-6 space-y-4">
+              {navLinks.map((link) => (
+                <motion.a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  className={`${
+                    activeSection === link.id
+                      ? 'font-semibold bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text'
+                      : 'text-gray-300'
+                  } flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium transition-colors`}
+                  onClick={() => handleNavClick(link.id)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span className={`${activeSection === link.id ? 'text-indigo-400' : 'text-gray-400'}`}>
+                    {link.icon}
+                  </span>
+                  {link.label}
+                </motion.a>
+              ))}
+
+              <div className="flex justify-center space-x-6 mt-4">
+                <a
+                  href="https://github.com/ganeshgana46"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-indigo-300 p-2 transition-colors"
+                  aria-label="GitHub"
+                >
+                  <FaGithub className="h-6 w-6" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/ganesh-pallam/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-indigo-300 p-2 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin className="h-6 w-6" />
+                </a>
+              </div>
               <a
-                key={link.id}
-                href={`#${link.id}`}
-                className={`${
-                  activeSection === link.id ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-500'
-                } block px-3 py-2 rounded-md text-base font-medium`}
-                onClick={() => {
-                  setActiveSection(link.id);
-                  setIsMenuOpen(false);
-                }}
+                href="#contact"
+                className="block text-center px-4 py-2 rounded-lg text-white font-semibold border border-white/30 hover:border-white/60 hover:text-indigo-300 transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
               >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex space-x-4 px-3 py-2">
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
-                <FaGithub className="text-gray-600 hover:text-indigo-600 h-5 w-5 transition-colors" />
-              </a>
-              <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin className="text-gray-600 hover:text-indigo-600 h-5 w-5 transition-colors" />
+                Let's Connect
               </a>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       )}
-    </motion.nav>
+    </>
   );
 };
 
