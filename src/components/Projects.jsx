@@ -43,8 +43,8 @@ const Projects = () => {
         "Fast hosting on Netlify with automated deployments via Git"
       ],
       techStack: ["React", "JavaScript (ES6+)", "Vite", "Tailwind CSS", "Framer Motion", "AOS", "Git", "Netlify"],
-      githubLink: "#",
-      demoLink: "#",
+      githubLink: "https://github.com/ganeshgana46/EFOQ",
+      demoLink: "https://efoq-sarees.netlify.app/",
       image: "/project1.jpg"
     },
     {
