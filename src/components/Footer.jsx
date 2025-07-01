@@ -142,8 +142,8 @@ const Footer = () => {
             <h4 className="text-xl font-semibold mb-6 text-white">Follow Me</h4>
             <div className="flex space-x-5">
               {[
-                { icon: <FaGithub className="h-6 w-6" />, url: "https://github.com/yourusername" },
-                { icon: <FaLinkedin className="h-6 w-6" />, url: "https://linkedin.com/in/yourusername" },
+                { icon: <FaGithub className="h-6 w-6" />, url: "https://github.com/ganeshgana46" },
+                { icon: <FaLinkedin className="h-6 w-6" />, url: "https://www.linkedin.com/in/ganesh-pallam/" },
               ].map((social, index) => (
                 <motion.a
                   key={index}

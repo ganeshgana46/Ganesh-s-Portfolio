@@ -10,6 +10,7 @@ import Education from './components/Education';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import StickyPhoneIcon from './components/StickyPhoneIcon';
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
       <Education />
       <Contact />
       <Footer />
+      <StickyPhoneIcon />
     </div>
   );
 }

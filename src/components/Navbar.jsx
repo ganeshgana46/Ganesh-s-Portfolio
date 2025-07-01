@@ -25,7 +25,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsAtTop(scrollPosition < 100); // Adjust this value based on your hero section height
+      setIsAtTop(scrollPosition < 100);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -85,13 +85,13 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const navLinks = [
-    { id: 'home', label: 'Home', icon: <FaHome /> },
-    { id: 'about', label: 'About', icon: <FaUser /> },
-    { id: 'skills', label: 'Skills', icon: <FaCode /> },
-    { id: 'experience', label: 'Experience', icon: <FaLaptopCode /> },
-    { id: 'projects', label: 'Projects', icon: <FaProjectDiagram /> },
-    { id: 'education', label: 'Education', icon: <FaGraduationCap /> },
-    { id: 'contact', label: 'Contact', icon: <FaPaperPlane /> },
+    { id: 'home', label: 'Home', icon: <FaHome className="mr-2" /> },
+    { id: 'about', label: 'About', icon: <FaUser className="mr-2" /> },
+    { id: 'skills', label: 'Skills', icon: <FaCode className="mr-2" /> },
+    { id: 'experience', label: 'Experience', icon: <FaLaptopCode className="mr-2" /> },
+    { id: 'projects', label: 'Projects', icon: <FaProjectDiagram className="mr-2" /> },
+    { id: 'education', label: 'Education', icon: <FaGraduationCap className="mr-2" /> },
+    { id: 'contact', label: 'Contact', icon: <FaPaperPlane className="mr-2" /> },
   ];
 
   const handleNavClick = (sectionId) => {
@@ -125,43 +125,42 @@ const Navbar = () => {
             </div>
 
             {/* Name/Logo - Right side in mobile, centered in desktop */}
-            <div className="flex items-center md:mx-auto ml-auto md:ml-0 pr-4 md:pr-0">
+            <div className="flex items-center md:mx-auto">
               <span className="text-2xl font-bold bg-gradient-to-r from-white via-indigo-300 to-purple-300 text-transparent bg-clip-text">
                 Ganesh Pallam
               </span>
             </div>
 
             {/* Desktop Navigation - Right side */}
-            <div className="hidden md:flex items-center space-x-8 h-full">
+            <div className="hidden md:flex items-center space-x-6 h-full">
               {navLinks.map((link) => (
                 <motion.a
                   key={link.id}
                   href={`#${link.id}`}
-                  className={`${
+                  className={`flex items-center ${
                     activeSection === link.id
-                      ? 'font-semibold bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text'
-                      : isAtTop ? 'text-white hover:text-indigo-300' : 'text-gray-300 hover:text-indigo-300'
+                      ? 'text-white'
+                      : 'bg-gradient-to-r from-indigo-300 to-purple-300 text-transparent bg-clip-text hover:text-white'
                   } font-medium transition-colors duration-300`}
                   onClick={() => handleNavClick(link.id)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
+                  {link.icon}
                   {link.label}
                 </motion.a>
               ))}
 
-              <a
+              <motion.a
                 href="#contact"
-                className={`ml-6 px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
-                  isAtTop
-                    ? 'border border-white/60 hover:border-white text-white hover:bg-white/10'
-                    : 'border border-white/30 hover:border-white/60 text-white hover:text-indigo-300'
-                }`}
+                className={`ml-4 px-4 py-2 rounded-full font-semibold transition-all duration-300 bg-gradient-to-r from-indigo-400 to-purple-500 text-white hover:from-indigo-500 hover:to-purple-600`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Let's Connect
-              </a>
+              </motion.a>
 
-              <div className="flex items-center space-x-4 ml-6">
+              <div className="flex items-center space-x-4 ml-4">
                 <a
                   href="https://github.com/ganeshgana46"
                   target="_blank"
@@ -245,7 +244,7 @@ const Navbar = () => {
               </div>
               <a
                 href="#contact"
-                className="block text-center px-4 py-2 rounded-lg text-white font-semibold border border-white/30 hover:border-white/60 hover:text-indigo-300 transition-all duration-300"
+                className="block text-center px-4 py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-indigo-400 to-purple-500 hover:from-indigo-500 hover:to-purple-600 transition-all duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Let's Connect

@@ -11,12 +11,8 @@ import {
 } from "react-icons/fa";
 import {
   SiTypescript,
-  SiNextdotjs,
   SiTailwindcss,
-  SiRedux,
-  SiGraphql,
   SiJest,
-  SiStorybook,
   SiVercel,
   SiWebpack,
   SiGreensock,
@@ -30,7 +26,6 @@ const SkillsSection = () => {
       icon: "💻",
       skills: [
         { name: "React", icon: <FaReact className="text-blue-400" /> },
-        { name: "Next.js", icon: <SiNextdotjs className="text-black dark:text-white" /> },
         { name: "TypeScript", icon: <SiTypescript className="text-blue-600" /> },
         { name: "JavaScript", icon: <FaJs className="text-yellow-300" /> },
         { name: "HTML5", icon: <FaHtml5 className="text-orange-500" /> },
@@ -57,7 +52,6 @@ const SkillsSection = () => {
         { name: "Git", icon: <FaGitAlt className="text-orange-500" /> },
         { name: "Figma", icon: <FaFigma className="text-purple-400" /> },
         { name: "Jest", icon: <SiJest className="text-red-500" /> },
-        { name: "Storybook", icon: <SiStorybook className="text-pink-500" /> },
         { name: "Webpack", icon: <SiWebpack className="text-blue-400" /> },
         { name: "Vercel", icon: <SiVercel className="text-black dark:text-white" /> },
       ],
@@ -66,7 +60,7 @@ const SkillsSection = () => {
   ];
 
   const additionalSkills = [
-    "React Native", "Node.js", "REST APIs", "JWT", 
+     "Node.js", "REST APIs", 
     "Responsive Design", "UI/UX", "Accessibility",
     "Performance", "Cross-browser"
   ];
